@@ -57,6 +57,15 @@ class Presence {
      */
     this.activity = activity ? new Activity(this, activity) : null;
 
+    /**
+     * The devices this presence is on
+     * @type {?object}
+     * @property {string} web
+     * @property {string} mobile
+     * @property {string} desktop
+     */
+    this.presenceStatus = data.client_status ? data.client_status : null;
+
     return this;
   }
 
@@ -75,7 +84,10 @@ class Presence {
     return this === presence || (
       presence &&
       this.status === presence.status &&
-      this.activity ? this.activity.equals(presence.activity) : !presence.activity
+      this.activity ? this.activity.equals(presence.activity) : !presence.activity &&
+        this.presenceStatus.web === presence.presenceStatus.web &&
+        this.presenceStatus.mobile === presence.presenceStatus.mobile &&
+        this.presenceStatus.desktop === presence.presenceStatus.desktop
     );
   }
 
